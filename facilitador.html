@@ -903,21 +903,6 @@ function analyzeResponse(response,event){
      concentratesCapacity ||
      transparentCommunication;
 
-   const attackBottleneck=
-     text.includes("swarming") ||
-     text.includes("swarm") ||
-     text.includes("resolver") && text.includes("prevencion") ||
-     text.includes("resolver") && text.includes("prevención") ||
-     text.includes("atender") && text.includes("prevencion") ||
-     text.includes("atender") && text.includes("prevención") ||
-     text.includes("liberar") && text.includes("cuello") ||
-     text.includes("apoy") && text.includes("viabilidad") ||
-     text.includes("redistribuir") ||
-     text.includes("reorganizar") ||
-     text.includes("comunicar") ||
-     text.includes("informar a la comunidad") ||
-     text.includes("transparencia");
-
    if(overloadBottleneck){
 
      consequence=
