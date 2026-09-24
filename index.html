@@ -461,7 +461,25 @@ footer{
 Gerencia de Planes, Programas y Proyectos · Simulación educativa Scrumban
 </footer>
 
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-database-compat.js"></script>
 
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBAP-FucF5-4_5Gem_oFobF5EcNMkArUFs",
+  authDomain: "muni-flow.firebaseapp.com",
+  databaseURL: "https://muni-flow-default-rtdb.firebaseio.com",
+  projectId: "muni-flow",
+  storageBucket: "muni-flow.firebasestorage.app",
+  messagingSenderId: "652943671856",
+  appId: "1:652943671856:web:0467f02991d622da6823f5"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+</script>
+    
 <script>
 
 let selectedTeam = null;
@@ -555,64 +573,85 @@ function toggleProject(index,element){
 }
 
 
-function submitDecision(){
+async function submitDecision(){
 
-    const justification=
+    const justification =
     document.getElementById("justification").value.trim();
 
-    if(selectedProjects.length!==5){
-
+    if(selectedProjects.length !== 5){
         alert("Deben seleccionar exactamente 5 iniciativas.");
-
         return;
     }
 
-    if(justification.length<15){
-
+    if(justification.length < 15){
         alert("Escriban una breve justificación de la decisión.");
-
         return;
     }
 
-    const chosen=
-    selectedProjects.map(i=>projects[i]);
+    const chosen = selectedProjects.map(i => projects[i]);
 
-    localStorage.setItem(
-        "muniflow_"+selectedTeam+"_evento1",
-        JSON.stringify({
-            team:selectedTeam,
-            name:selectedTeamName,
-            projects:chosen,
-            justification:justification
-        })
-    );
+    const decision = {
+        team: selectedTeam,
+        name: selectedTeamName,
+        event: 1,
+        projects: chosen,
+        justification: justification,
+        submitted: true,
+        timestamp: Date.now()
+    };
 
-    document.querySelector(".event-card").innerHTML=`
-        <div class="event-number">DECISIÓN REGISTRADA</div>
+    const sendBtn = document.getElementById("sendBtn");
+    sendBtn.disabled = true;
+    sendBtn.innerText = "Enviando decisión...";
 
-        <h2>✅ Equipo ${selectedTeam} — ${selectedTeamName}</h2>
+    try {
 
-        <p>
-        Su priorización fue registrada correctamente.
-        </p>
+        await database
+            .ref("muniflow/teams/" + selectedTeam + "/evento1")
+            .set(decision);
 
-        <div class="alert">
-        <strong>Estado:</strong> esperando las decisiones de los demás equipos.
-        </div>
+        document.querySelector(".event-card").innerHTML = `
+            <div class="event-number">DECISIÓN REGISTRADA</div>
 
-        <p>
-        En Scrumban, limitar el trabajo que entra al sistema obliga
-        a priorizar y evita que la capacidad disponible quede saturada.
-        </p>
+            <h2>✅ Equipo ${selectedTeam} — ${selectedTeamName}</h2>
 
-        <div class="center">
-        <strong>⏳ Esperen instrucciones de la persona facilitadora.</strong>
-        </div>
-    `;
+            <p>
+            Su decisión llegó correctamente al centro de control
+            de MUNI-FLOW.
+            </p>
 
-    window.scrollTo(0,0);
+            <div class="alert">
+                <strong>🔥 CONECTADO</strong><br><br>
+                La respuesta del equipo fue registrada en tiempo real.
+            </div>
+
+            <p>
+                En Scrumban, limitar el trabajo que entra al sistema
+                obliga a priorizar según capacidad y valor público.
+            </p>
+
+            <div class="center">
+                <strong>
+                ⏳ Esperen a que la persona facilitadora revele las consecuencias.
+                </strong>
+            </div>
+        `;
+
+        window.scrollTo(0,0);
+
+    } catch(error) {
+
+        console.error(error);
+
+        alert(
+            "No fue posible enviar la decisión a MUNI-FLOW. " +
+            "Revise la conexión e inténtelo nuevamente."
+        );
+
+        sendBtn.disabled = false;
+        sendBtn.innerText = "Enviar decisión";
+    }
 }
-
 
 loadProjects();
 
