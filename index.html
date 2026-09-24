@@ -884,8 +884,15 @@ function analyze(text,event){
      text.includes("superar el limite") ||
      text.includes("superaremos el límite") ||
      text.includes("superaremos el limite") ||
-     text.includes("aumentar el wip") ||
-     text.includes("aumentaremos el wip");
+     (
+  text.includes("aumentar el wip") &&
+  !text.includes("sin aumentar el wip") &&
+  !text.includes("no aumentar el wip")
+) ||
+(
+  text.includes("aumentaremos el wip") &&
+  !text.includes("no aumentaremos el wip")
+);
 
    const resolvesPreventions=
      (
