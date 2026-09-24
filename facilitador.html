@@ -1288,24 +1288,56 @@ async function showClosing(){
  Object.keys(teams).forEach(letter=>{
 
    let value="🟢";
-   let flow="🟡";
-   let governance="🟢";
-   let adaptability="🟡";
+let flow="🟢";
+let governance="🟢";
+let adaptability="🟢";
 
-   const e4=
-     data[letter] &&
-     data[letter].evento4;
+const teamData=data[letter] || {};
 
-   if(e4){
+const results=[];
 
-     const result=analyzeResponse(e4,4);
+for(let eventNumber=1; eventNumber<=4; eventNumber++){
 
-     value=result.value.split(" ")[0];
-     flow=result.flow.split(" ")[0];
-     governance=result.governance.split(" ")[0];
-     adaptability=result.adaptability.split(" ")[0];
+  const response=teamData["evento"+eventNumber];
 
-   }
+  if(response){
+    results.push(
+      analyzeResponse(response,eventNumber)
+    );
+  }
+}
+
+function worstState(states){
+
+  if(states.some(state => state.includes("🔴"))){
+    return "🔴";
+  }
+
+  if(states.some(state => state.includes("🟡"))){
+    return "🟡";
+  }
+
+  return "🟢";
+}
+
+if(results.length){
+
+  value=worstState(
+    results.map(result => result.value)
+  );
+
+  flow=worstState(
+    results.map(result => result.flow)
+  );
+
+  governance=worstState(
+    results.map(result => result.governance)
+  );
+
+  adaptability=worstState(
+    results.map(result => result.adaptability)
+  );
+}
 
    rows+=`
      <tr>
