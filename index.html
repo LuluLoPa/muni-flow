@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MUNI-FLOW | Rescate del Portafolio Municipal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f4f7fb;
+    color:#1f2937;
+}
+
+header{
+    background:linear-gradient(135deg,#123b5d,#176b87);
+    color:white;
+    padding:28px 20px;
+    text-align:center;
+}
+
+header h1{
+    margin:0;
+    font-size:32px;
+}
+
+header p{
+    margin:8px 0 0;
+    opacity:.9;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:25px 18px 50px;
+}
+
+.hero{
+    background:white;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    margin-bottom:25px;
+}
+
+.badge{
+    display:inline-block;
+    background:#dff5ee;
+    color:#176b55;
+    padding:7px 13px;
+    border-radius:20px;
+    font-weight:bold;
+    font-size:13px;
+}
+
+h2{
+    color:#123b5d;
+}
+
+.teams{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-top:20px;
+}
+
+.team{
+    border:2px solid #e5e7eb;
+    background:white;
+    border-radius:15px;
+    padding:20px 10px;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.team:hover{
+    transform:translateY(-3px);
+    border-color:#176b87;
+}
+
+.team.selected{
+    border-color:#176b87;
+    background:#eaf7fb;
+}
+
+.team-letter{
+    width:45px;
+    height:45px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#176b87;
+    color:white;
+    font-weight:bold;
+    font-size:21px;
+}
+
+.team h3{
+    margin-bottom:3px;
+}
+
+.btn{
+    border:none;
+    border-radius:10px;
+    padding:14px 22px;
+    font-weight:bold;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.btn-primary{
+    background:#176b87;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#10566e;
+}
+
+.btn:disabled{
+    background:#cbd5e1;
+    cursor:not-allowed;
+}
+
+.center{
+    text-align:center;
+}
+
+.hidden{
+    display:none;
+}
+
+.event-card{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.event-number{
+    color:#176b87;
+    font-weight:bold;
+    text-transform:uppercase;
+    font-size:13px;
+}
+
+.alert{
+    background:#fff6dc;
+    border-left:5px solid #e7a928;
+    padding:15px;
+    border-radius:8px;
+    margin:18px 0;
+}
+
+.projects{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin:18px 0;
+}
+
+.project{
+    background:#f8fafc;
+    border:2px solid #e5e7eb;
+    padding:13px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.project.selected{
+    background:#e4f5ee;
+    border-color:#2b8a6e;
+}
+
+textarea{
+    width:100%;
+    min-height:110px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    padding:12px;
+    font-size:15px;
+    resize:vertical;
+}
+
+.indicators{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:20px;
+}
+
+.indicator{
+    background:white;
+    border-radius:12px;
+    padding:13px;
+    text-align:center;
+    border:1px solid #e5e7eb;
+}
+
+.green{color:#198754;}
+.yellow{color:#d69200;}
+.red{color:#c0392b;}
+
+.board{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:8px;
+    margin-top:20px;
+    overflow-x:auto;
+}
+
+.column{
+    min-width:150px;
+    background:#eef2f7;
+    border-radius:12px;
+    padding:10px;
+}
+
+.column-title{
+    font-size:12px;
+    font-weight:bold;
+    text-align:center;
+    min-height:35px;
+}
+
+.wip{
+    text-align:center;
+    font-size:12px;
+    margin:7px 0;
+    color:#64748b;
+}
+
+.task{
+    background:white;
+    border-radius:8px;
+    padding:8px;
+    margin:7px 0;
+    font-size:12px;
+    box-shadow:0 2px 5px rgba(0,0,0,.05);
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    color:#64748b;
+    font-size:13px;
+}
+
+@media(max-width:700px){
+
+    header h1{
+        font-size:25px;
+    }
+
+    .teams{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .projects{
+        grid-template-columns:1fr;
+    }
+
+    .indicators{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .hero{
+        padding:20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🏛️ MUNI-FLOW</h1>
+    <p>Rescate del Portafolio Municipal</p>
+</header>
+
+<div class="container">
+
+<section id="inicio" class="hero">
+
+    <span class="badge">SIMULACIÓN SCRUMBAN</span>
+
+    <h2>Municipalidad de Valle Verde</h2>
+
+    <p>
+        La Unidad de Promoción Social y Proyectos Comunitarios enfrenta
+        una saturación de iniciativas, presión ciudadana y capacidad limitada.
+    </p>
+
+    <p>
+        Su equipo deberá tomar decisiones para recuperar el flujo de trabajo,
+        generar valor público y mantener la gobernanza institucional.
+    </p>
+
+    <h2>Seleccione su equipo</h2>
+
+    <div class="teams">
+
+        <div class="team" onclick="selectTeam('A','Horizonte',this)">
+            <div class="team-letter">A</div>
+            <h3>Horizonte</h3>
+        </div>
+
+        <div class="team" onclick="selectTeam('B','Impulso',this)">
+            <div class="team-letter">B</div>
+            <h3>Impulso</h3>
+        </div>
+
+        <div class="team" onclick="selectTeam('C','Conecta',this)">
+            <div class="team-letter">C</div>
+            <h3>Conecta</h3>
+        </div>
+
+        <div class="team" onclick="selectTeam('D','Avanza',this)">
+            <div class="team-letter">D</div>
+            <h3>Avanza</h3>
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="center">
+        <button id="startBtn"
+                class="btn btn-primary"
+                disabled
+                onclick="startSimulation()">
+            Entrar a la simulación
+        </button>
+    </div>
+
+</section>
+
+
+<section id="simulation" class="hidden">
+
+<div class="event-card">
+
+    <div class="event-number">EVENTO 1 · PRIORIZACIÓN</div>
+
+    <h2>🚨 El portafolio está saturado</h2>
+
+    <div class="alert">
+        La Alcaldía considera que los 10 proyectos son importantes y solicita
+        impulsarlos todos. Sin embargo, la columna <strong>READY tiene un límite WIP de 5</strong>.
+    </div>
+
+    <p>
+        Como equipo gestor deben decidir cuáles <strong>5 iniciativas</strong>
+        entrarán primero al sistema.
+    </p>
+
+    <h3>Seleccione exactamente 5 proyectos</h3>
+
+    <div id="projects" class="projects"></div>
+
+    <p id="counter"><strong>Seleccionados: 0 / 5</strong></p>
+
+    <h3>Justifiquen su decisión</h3>
+
+    <textarea id="justification"
+    placeholder="¿Por qué estas iniciativas deben avanzar primero? Consideren valor público, urgencia, capacidad y necesidades de la comunidad."></textarea>
+
+    <br><br>
+
+    <button id="sendBtn"
+            class="btn btn-primary"
+            onclick="submitDecision()">
+        Enviar decisión
+    </button>
+
+</div>
+
+
+<h2>📊 Estado del equipo</h2>
+
+<div class="indicators">
+
+    <div class="indicator">
+        🎯<br>
+        <strong>Valor Público</strong><br>
+        <span class="green">● Saludable</span>
+    </div>
+
+    <div class="indicator">
+        🌊<br>
+        <strong>Salud del Flujo</strong><br>
+        <span class="green">● Saludable</span>
+    </div>
+
+    <div class="indicator">
+        💰<br>
+        <strong>Gobernanza</strong><br>
+        <span class="green">● Saludable</span>
+    </div>
+
+    <div class="indicator">
+        🔄<br>
+        <strong>Adaptabilidad</strong><br>
+        <span class="green">● Saludable</span>
+    </div>
+
+</div>
+
+
+<h2>🗂️ Tablero Scrumban</h2>
+
+<div class="board">
+
+    <div class="column">
+        <div class="column-title">BACKLOG</div>
+        <div class="wip">Sin límite</div>
+        <div class="task">Iniciativas pendientes</div>
+    </div>
+
+    <div class="column">
+        <div class="column-title">READY</div>
+        <div class="wip">WIP máximo 5</div>
+    </div>
+
+    <div class="column">
+        <div class="column-title">FORMULACIÓN TÉCNICA</div>
+        <div class="wip">WIP máximo 3</div>
+    </div>
+
+    <div class="column">
+        <div class="column-title">VIABILIDAD LEGAL / FINANCIERA</div>
+        <div class="wip">WIP máximo 2</div>
+    </div>
+
+    <div class="column">
+        <div class="column-title">CONTRATACIÓN</div>
+        <div class="wip">WIP máximo 2</div>
+    </div>
+
+    <div class="column">
+        <div class="column-title">DONE</div>
+        <div class="wip">Valor entregado</div>
+    </div>
+
+</div>
+
+</section>
+
+</div>
+
+<footer>
+Gerencia de Planes, Programas y Proyectos · Simulación educativa Scrumban
+</footer>
+
+
+<script>
+
+let selectedTeam = null;
+let selectedTeamName = null;
+let selectedProjects = [];
+
+const projects = [
+"Parque infantil de Los Cipreses",
+"Centro diurno para personas adultas mayores",
+"Reparación del salón comunal",
+"Programa de empleo juvenil",
+"Aceras accesibles frente a la escuela",
+"Recuperación de quebrada municipal",
+"Feria de emprendimientos locales",
+"Iluminación del parque central",
+"Cancha multiuso",
+"Remodelación de oficinas municipales"
+];
+
+function selectTeam(letter,name,element){
+
+    selectedTeam = letter;
+    selectedTeamName = name;
+
+    document.querySelectorAll(".team")
+    .forEach(t=>t.classList.remove("selected"));
+
+    element.classList.add("selected");
+
+    document.getElementById("startBtn").disabled=false;
+}
+
+
+function startSimulation(){
+
+    document.getElementById("inicio").classList.add("hidden");
+    document.getElementById("simulation").classList.remove("hidden");
+
+    window.scrollTo(0,0);
+}
+
+
+function loadProjects(){
+
+    const container=document.getElementById("projects");
+
+    projects.forEach((name,index)=>{
+
+        const div=document.createElement("div");
+
+        div.className="project";
+        div.innerHTML="<strong>"+(index+1)+".</strong> "+name;
+
+        div.onclick=function(){
+
+            toggleProject(index,div);
+
+        };
+
+        container.appendChild(div);
+
+    });
+}
+
+
+function toggleProject(index,element){
+
+    if(selectedProjects.includes(index)){
+
+        selectedProjects=
+        selectedProjects.filter(i=>i!==index);
+
+        element.classList.remove("selected");
+
+    }else{
+
+        if(selectedProjects.length>=5){
+
+            alert("READY tiene un límite WIP de 5. Primero deben priorizar.");
+
+            return;
+        }
+
+        selectedProjects.push(index);
+
+        element.classList.add("selected");
+    }
+
+    document.getElementById("counter").innerHTML=
+    "<strong>Seleccionados: "+selectedProjects.length+" / 5</strong>";
+}
+
+
+function submitDecision(){
+
+    const justification=
+    document.getElementById("justification").value.trim();
+
+    if(selectedProjects.length!==5){
+
+        alert("Deben seleccionar exactamente 5 iniciativas.");
+
+        return;
+    }
+
+    if(justification.length<15){
+
+        alert("Escriban una breve justificación de la decisión.");
+
+        return;
+    }
+
+    const chosen=
+    selectedProjects.map(i=>projects[i]);
+
+    localStorage.setItem(
+        "muniflow_"+selectedTeam+"_evento1",
+        JSON.stringify({
+            team:selectedTeam,
+            name:selectedTeamName,
+            projects:chosen,
+            justification:justification
+        })
+    );
+
+    document.querySelector(".event-card").innerHTML=`
+        <div class="event-number">DECISIÓN REGISTRADA</div>
+
+        <h2>✅ Equipo ${selectedTeam} — ${selectedTeamName}</h2>
+
+        <p>
+        Su priorización fue registrada correctamente.
+        </p>
+
+        <div class="alert">
+        <strong>Estado:</strong> esperando las decisiones de los demás equipos.
+        </div>
+
+        <p>
+        En Scrumban, limitar el trabajo que entra al sistema obliga
+        a priorizar y evita que la capacidad disponible quede saturada.
+        </p>
+
+        <div class="center">
+        <strong>⏳ Esperen instrucciones de la persona facilitadora.</strong>
+        </div>
+    `;
+
+    window.scrollTo(0,0);
+}
+
+
+loadProjects();
+
+</script>
+
+</body>
+</html>
