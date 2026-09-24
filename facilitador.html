@@ -1309,11 +1309,21 @@ for(let eventNumber=1; eventNumber<=4; eventNumber++){
 
 function worstState(states){
 
-  if(states.some(state => state.includes("🔴"))){
+  const normalized=states.map(state =>
+    String(state || "").toLowerCase()
+  );
+
+  if(normalized.some(state =>
+    state.includes("crítico") ||
+    state.includes("critico")
+  )){
     return "🔴";
   }
 
-  if(states.some(state => state.includes("🟡"))){
+  if(normalized.some(state =>
+    state.includes("tensión") ||
+    state.includes("tension")
+  )){
     return "🟡";
   }
 
