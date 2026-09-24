@@ -357,7 +357,7 @@ footer{
     Esperando decisiones de los equipos.
   </div>
 
-  <div class="warning">
+  <div class="warning" id="facilitatorWarning">
     <strong>Importante:</strong>
     no avance al siguiente evento hasta haber comentado
     brevemente las consecuencias con el grupo.
@@ -1278,6 +1278,9 @@ async function showClosing(){
  document.getElementById("closingCard")
  .classList.remove("hidden");
 
+  document.getElementById("facilitatorWarning")
+.style.display="none";
+  
  const snapshot=
  await database.ref("muniflow/teams").once("value");
 
