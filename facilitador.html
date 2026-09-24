@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MUNI-FLOW | Centro de Control</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fa;
+  color:#1f2937;
+}
+
+header{
+  background:linear-gradient(135deg,#123b5d,#176b87);
+  color:white;
+  padding:24px;
+}
+
+.header-inner{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+header h1{margin:0;font-size:28px}
+header p{margin:5px 0 0;opacity:.85}
+
+.live{
+  background:#dff5ee;
+  color:#176b55;
+  padding:9px 14px;
+  border-radius:20px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:24px 18px 50px;
+}
+
+.control-card,
+.team-card{
+  background:white;
+  border-radius:16px;
+  box-shadow:0 5px 18px rgba(0,0,0,.07);
+}
+
+.control-card{
+  padding:22px;
+  margin-bottom:22px;
+}
+
+.top-row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.event-badge{
+  display:inline-block;
+  background:#e8f3f8;
+  color:#176b87;
+  padding:8px 14px;
+  border-radius:20px;
+  font-weight:bold;
+}
+
+.progress-wrap{
+  margin-top:18px;
+}
+
+.progress{
+  height:12px;
+  background:#e5e7eb;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#218b70;
+  transition:.4s;
+}
+
+.teams{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.team-card{
+  padding:18px;
+  border-top:5px solid #cbd5e1;
+}
+
+.team-card.received{
+  border-top-color:#218b70;
+}
+
+.team-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+
+.team-letter{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#176b87;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:bold;
+}
+
+.status{
+  font-size:13px;
+  padding:6px 9px;
+  border-radius:15px;
+  font-weight:bold;
+}
+
+.waiting{
+  background:#fff3cd;
+  color:#8a6500;
+}
+
+.done{
+  background:#dff5ee;
+  color:#176b55;
+}
+
+.answer{
+  margin-top:15px;
+  padding-top:12px;
+  border-top:1px solid #e5e7eb;
+  font-size:14px;
+}
+
+.answer h4{
+  margin:10px 0 5px;
+  color:#123b5d;
+}
+
+.answer p{
+  margin:4px 0;
+  line-height:1.4;
+}
+
+.project-list{
+  padding-left:18px;
+  margin:7px 0;
+}
+
+.controls{
+  margin-top:22px;
+  background:#123b5d;
+  color:white;
+  border-radius:16px;
+  padding:22px;
+}
+
+.buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px 17px;
+  font-size:14px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.primary{
+  background:#29a37a;
+  color:white;
+}
+
+.secondary{
+  background:white;
+  color:#123b5d;
+}
+
+.warning{
+  background:#f2b84b;
+  color:#3b2a00;
+}
+
+button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.notice{
+  background:#fff6dc;
+  border-left:5px solid #e7a928;
+  padding:14px;
+  border-radius:8px;
+  margin-top:15px;
+}
+
+.system{
+  margin-top:22px;
+  background:white;
+  padding:20px;
+  border-radius:16px;
+}
+
+.system-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.indicator{
+  text-align:center;
+  background:#f8fafc;
+  border-radius:10px;
+  padding:12px;
+}
+
+footer{
+  text-align:center;
+  padding:25px;
+  color:#64748b;
+  font-size:13px;
+}
+
+@media(max-width:900px){
+  .teams{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:600px){
+  .teams{grid-template-columns:1fr}
+  .system-grid{grid-template-columns:repeat(2,1fr)}
+  .header-inner{display:block}
+  .live{display:inline-block;margin-top:15px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="header-inner">
+  <div>
+    <h1>🏛️ MUNI-FLOW | Centro de Control</h1>
+    <p>Panel de la persona facilitadora</p>
+  </div>
+  <div class="live">● EN VIVO</div>
+</div>
+</header>
+
+<div class="container">
+
+<div class="control-card">
+  <div class="top-row">
+    <div>
+      <span class="event-badge">EVENTO 1 · PRIORIZACIÓN</span>
+      <h2>Estado de respuestas</h2>
+    </div>
+    <div>
+      <strong id="responseCount">0 de 4 equipos</strong>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+  </div>
+</div>
+
+<div class="teams">
+
+  <div class="team-card" id="cardA">
+    <div class="team-head">
+      <div class="team-letter">A</div>
+      <span id="statusA" class="status waiting">⏳ Esperando</span>
+    </div>
+    <h3>Horizonte</h3>
+    <div id="answerA" class="answer">
+      Esperando la decisión del equipo...
+    </div>
+  </div>
+
+  <div class="team-card" id="cardB">
+    <div class="team-head">
+      <div class="team-letter">B</div>
+      <span id="statusB" class="status waiting">⏳ Esperando</span>
+    </div>
+    <h3>Impulso</h3>
+    <div id="answerB" class="answer">
+      Esperando la decisión del equipo...
+    </div>
+  </div>
+
+  <div class="team-card" id="cardC">
+    <div class="team-head">
+      <div class="team-letter">C</div>
+      <span id="statusC" class="status waiting">⏳ Esperando</span>
+    </div>
+    <h3>Conecta</h3>
+    <div id="answerC" class="answer">
+      Esperando la decisión del equipo...
+    </div>
+  </div>
+
+  <div class="team-card" id="cardD">
+    <div class="team-head">
+      <div class="team-letter">D</div>
+      <span id="statusD" class="status waiting">⏳ Esperando</span>
+    </div>
+    <h3>Avanza</h3>
+    <div id="answerD" class="answer">
+      Esperando la decisión del equipo...
+    </div>
+  </div>
+
+</div>
+
+<div class="controls">
+
+  <h2>🎛️ Control de la simulación</h2>
+
+  <p>
+    Las respuestas aparecen automáticamente. No es necesario actualizar
+    esta página.
+  </p>
+
+  <div class="buttons">
+
+    <button id="revealBtn"
+            class="primary"
+            disabled
+            onclick="revealConsequences()">
+      🎭 Revelar consecuencias
+    </button>
+
+    <button id="nextBtn"
+            class="secondary"
+            disabled
+            onclick="nextEvent()">
+      ➡️ Siguiente evento
+    </button>
+
+    <button class="warning"
+            onclick="simulatePending()">
+      ⚡ Simular equipos pendientes
+    </button>
+
+  </div>
+
+  <div id="controlMessage" class="notice">
+    Esperando las decisiones de los cuatro equipos.
+  </div>
+
+</div>
+
+<div class="system">
+
+  <h2>📊 Lectura del sistema</h2>
+
+  <div class="system-grid">
+
+    <div class="indicator">
+      🎯<br>
+      <strong>Valor Público</strong><br>
+      🟢 Saludable
+    </div>
+
+    <div class="indicator">
+      🌊<br>
+      <strong>Salud del Flujo</strong><br>
+      🟢 Saludable
+    </div>
+
+    <div class="indicator">
+      💰<br>
+      <strong>Gobernanza</strong><br>
+      🟢 Saludable
+    </div>
+
+    <div class="indicator">
+      🔄<br>
+      <strong>Adaptabilidad</strong><br>
+      🟢 Saludable
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<footer>
+Gerencia de Planes, Programas y Proyectos · Simulación educativa Scrumban
+</footer>
+
+
+<script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-database-compat.js"></script>
+
+<script>
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBAP-FucF5-4_5Gem_oFobF5EcNMkArUFs",
+  authDomain: "muni-flow.firebaseapp.com",
+  databaseURL: "https://muni-flow-default-rtdb.firebaseio.com",
+  projectId: "muni-flow",
+  storageBucket: "muni-flow.firebasestorage.app",
+  messagingSenderId: "652943671856",
+  appId: "1:652943671856:web:0467f02991d622da6823f5"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const database = firebase.database();
+
+const teams = {
+  A:"Horizonte",
+  B:"Impulso",
+  C:"Conecta",
+  D:"Avanza"
+};
+
+let received = {};
+let consequencesRevealed = false;
+
+
+/* ESCUCHA EN TIEMPO REAL */
+
+database.ref("muniflow/teams").on("value", snapshot => {
+
+  const data = snapshot.val() || {};
+
+  let count = 0;
+
+  Object.keys(teams).forEach(letter => {
+
+    const decision =
+      data[letter] &&
+      data[letter].evento1;
+
+    if(decision && decision.submitted){
+
+      received[letter] = decision;
+
+      count++;
+
+      renderTeam(letter,decision);
+
+    }else{
+
+      renderWaiting(letter);
+
+    }
+
+  });
+
+  updateProgress(count);
+
+});
+
+
+function renderTeam(letter,data){
+
+  const status =
+    document.getElementById("status"+letter);
+
+  status.className="status done";
+  status.innerHTML="✅ Respondió";
+
+  document
+    .getElementById("card"+letter)
+    .classList.add("received");
+
+  const projects =
+    (data.projects || [])
+    .map(p=>"<li>"+escapeHtml(p)+"</li>")
+    .join("");
+
+  document.getElementById("answer"+letter).innerHTML=`
+
+    <h4>Proyectos priorizados</h4>
+
+    <ol class="project-list">
+      ${projects}
+    </ol>
+
+    <h4>Justificación</h4>
+
+    <p>${escapeHtml(data.justification || "")}</p>
+  `;
+}
+
+
+function renderWaiting(letter){
+
+  const status =
+    document.getElementById("status"+letter);
+
+  status.className="status waiting";
+  status.innerHTML="⏳ Esperando";
+
+  document
+    .getElementById("card"+letter)
+    .classList.remove("received");
+
+  document.getElementById("answer"+letter).innerHTML=
+    "Esperando la decisión del equipo...";
+}
+
+
+function updateProgress(count){
+
+  document.getElementById("responseCount").innerText =
+    count+" de 4 equipos";
+
+  document.getElementById("progressBar").style.width =
+    (count/4*100)+"%";
+
+  const reveal =
+    document.getElementById("revealBtn");
+
+  if(count===4){
+
+    reveal.disabled=false;
+
+    document.getElementById("controlMessage").innerHTML=
+      "✅ Los cuatro equipos respondieron. Ya puede revelar las consecuencias.";
+
+  }else{
+
+    reveal.disabled=true;
+
+    document.getElementById("controlMessage").innerHTML=
+      "⏳ Esperando respuestas: "+count+" de 4 equipos.";
+
+  }
+}
+
+
+/* REVELAR CONSECUENCIAS */
+
+async function revealConsequences(){
+
+  consequencesRevealed=true;
+
+  await database
+    .ref("muniflow/control")
+    .update({
+      consequencesRevealed:true,
+      currentEvent:1,
+      updatedAt:Date.now()
+    });
+
+  document.getElementById("controlMessage").innerHTML=
+    "🎭 Consecuencias reveladas. Revise las decisiones con el grupo.";
+
+  document.getElementById("nextBtn").disabled=false;
+}
+
+
+/* SIGUIENTE EVENTO */
+
+async function nextEvent(){
+
+  if(!consequencesRevealed){
+    alert("Primero revele las consecuencias.");
+    return;
+  }
+
+  await database
+    .ref("muniflow/control")
+    .update({
+      currentEvent:2,
+      consequencesRevealed:false,
+      updatedAt:Date.now()
+    });
+
+  document.getElementById("controlMessage").innerHTML=
+    "➡️ Evento 2 activado en el sistema.";
+
+  alert(
+    "Evento 2 activado. En la siguiente fase conectaremos esta orden " +
+    "con los celulares de los equipos."
+  );
+}
+
+
+/* DEMO: SIMULAR EQUIPOS PENDIENTES */
+
+async function simulatePending(){
+
+  const demo = {
+
+    A:{
+      projects:[
+        "Parque infantil de Los Cipreses",
+        "Centro diurno para personas adultas mayores",
+        "Programa de empleo juvenil",
+        "Aceras accesibles frente a la escuela",
+        "Recuperación de quebrada municipal"
+      ],
+      justification:
+        "Priorizamos impacto social, población vulnerable y urgencia comunitaria."
+    },
+
+    B:{
+      projects:[
+        "Cancha multiuso",
+        "Iluminación del parque central",
+        "Feria de emprendimientos locales",
+        "Programa de empleo juvenil",
+        "Reparación del salón comunal"
+      ],
+      justification:
+        "Priorizamos proyectos visibles y demandas inmediatas de la comunidad."
+    },
+
+    C:{
+      projects:[
+        "Aceras accesibles frente a la escuela",
+        "Centro diurno para personas adultas mayores",
+        "Recuperación de quebrada municipal",
+        "Programa de empleo juvenil",
+        "Parque infantil de Los Cipreses"
+      ],
+      justification:
+        "Buscamos equilibrio entre inclusión, ambiente, empleo y valor público."
+    },
+
+    D:{
+      projects:[
+        "Centro diurno para personas adultas mayores",
+        "Aceras accesibles frente a la escuela",
+        "Iluminación del parque central",
+        "Recuperación de quebrada municipal",
+        "Reparación del salón comunal"
+      ],
+      justification:
+        "Priorizamos viabilidad institucional, urgencia y capacidad disponible."
+    }
+
+  };
+
+  for(const letter of Object.keys(teams)){
+
+    if(!received[letter]){
+
+      await database
+        .ref("muniflow/teams/"+letter+"/evento1")
+        .set({
+          team:letter,
+          name:teams[letter],
+          event:1,
+          projects:demo[letter].projects,
+          justification:demo[letter].justification,
+          submitted:true,
+          simulated:true,
+          timestamp:Date.now()
+        });
+
+    }
+  }
+
+  document.getElementById("controlMessage").innerHTML=
+    "⚡ Se generaron respuestas de demostración para los equipos pendientes.";
+}
+
+
+/* SEGURIDAD VISUAL */
+
+function escapeHtml(text){
+
+  const div=document.createElement("div");
+  div.textContent=text;
+  return div.innerHTML;
+}
+
+</script>
+
+</body>
+</html>
