@@ -722,31 +722,79 @@ function analyzeResponse(response,event){
  let connection="";
 
 
+ /* ==========================
+    EVENTO 1
+ ========================== */
+
  if(event===1){
 
    consequence=
-   "El equipo limitó el trabajo que entra a READY y estableció una prioridad inicial. Esto protege la capacidad, aunque obliga a mantener y revisar las iniciativas que permanecen en Backlog.";
+   "El equipo estableció una prioridad inicial y limitó el trabajo que entra a READY. Esto permite concentrar la capacidad municipal, aunque las iniciativas que permanecen en Backlog deberán revisarse posteriormente mediante Replenishment.";
 
    connection=
-   "Priorización + límite WIP + Replenishment: no todo lo importante debe entrar al sistema al mismo tiempo.";
+   "En Scrumban, priorizar no significa declarar que los demás proyectos carecen de importancia. Significa decidir qué trabajo puede entrar al sistema de acuerdo con el valor público y la capacidad disponible.";
 
    flow="🟢 Saludable";
+   adaptability="🟡 En tensión";
  }
 
+
+ /* ==========================
+    EVENTO 2
+    WIP + PRESIÓN POLÍTICA
+ ========================== */
 
  if(event===2){
 
-   if(
-     text.includes("termin") ||
-     text.includes("liber") ||
+   const overload=
+     text.includes("incorporaremos inmediatamente") ||
+     text.includes("incorporar inmediatamente") ||
+     text.includes("ingresaremos inmediatamente") ||
+     text.includes("agregaremos inmediatamente") ||
+     text.includes("aunque") && text.includes("wip") ||
+     text.includes("aunque") && text.includes("límite") ||
+     text.includes("aunque") && text.includes("limite") ||
+     text.includes("superar") && text.includes("wip") ||
+     text.includes("sobrepas") ||
+     text.includes("exced") && text.includes("wip") ||
+     text.includes("por presión") ||
+     text.includes("por presion");
+
+   const protectCapacity=
+     text.includes("terminaremos") ||
+     text.includes("terminar primero") ||
+     text.includes("liberar capacidad") ||
+     text.includes("liberaremos") ||
+     text.includes("respetar") && text.includes("wip") ||
+     text.includes("mantener") && text.includes("wip") ||
+     text.includes("mantendremos") && text.includes("límite") ||
+     text.includes("mantendremos") && text.includes("limite") ||
+     text.includes("negociar") ||
+     text.includes("negociaremos") ||
+     text.includes("swarming") ||
      text.includes("swarm") ||
-     text.includes("wip") ||
-     text.includes("capacidad") ||
-     text.includes("negoci")
-   ){
+     text.includes("no incorporar") ||
+     text.includes("esperar") && text.includes("capacidad");
+
+   /*
+   IMPORTANTE:
+   Primero se evalúa la sobrecarga.
+   Así, mencionar "WIP" no convierte automáticamente
+   una decisión en saludable.
+   */
+
+   if(overload){
 
      consequence=
-     "El equipo protege la capacidad antes de incorporar nuevo trabajo. Reduce el riesgo de congestión, aunque puede generar una tensión temporal con la expectativa política o comunitaria.";
+     "El equipo obtiene una respuesta inmediata frente a la presión de Alcaldía y de la comunidad. Sin embargo, incorporar trabajo cuando Formulación Técnica ya alcanzó su límite WIP aumenta el trabajo en proceso, la multitarea y el riesgo de retrasar los proyectos que ya estaban en ejecución.";
+
+     flow="🔴 Crítico";
+     adaptability="🟡 En tensión";
+
+   }else if(protectCapacity){
+
+     consequence=
+     "El equipo protege la capacidad del sistema y busca liberar espacio antes de incorporar nuevo trabajo. Esto favorece la continuidad del flujo, aunque puede exigir negociar con Alcaldía y gestionar expectativas políticas y comunitarias.";
 
      flow="🟢 Saludable";
      adaptability="🟢 Saludable";
@@ -754,30 +802,62 @@ function analyzeResponse(response,event){
    }else{
 
      consequence=
-     "La decisión puede responder rápidamente a la solicitud de Alcaldía, pero introducir más trabajo con Formulación ya llena aumenta el riesgo de multitarea, congestión y mayor tiempo de entrega.";
+     "La decisión intenta responder a la nueva demanda, pero no queda suficientemente claro cómo se protegerá el límite WIP. El equipo necesitaría precisar qué trabajo terminará, pausará o reorganizará antes de incorporar la nueva iniciativa.";
 
-     flow="🔴 Crítico";
+     flow="🟡 En tensión";
+     adaptability="🟡 En tensión";
    }
 
    connection=
-   "Los límites WIP hacen visible la capacidad. Pull y Stop Starting, Start Finishing ayudan a evitar que la presión externa sobrecargue el sistema.";
+   "El límite WIP representa capacidad real, no una recomendación decorativa. Pull y el principio Stop Starting, Start Finishing ayudan a evitar que nuevas presiones congestionen el sistema.";
  }
 
 
+ /* ==========================
+    EVENTO 3
+    CUELLO DE BOTELLA
+ ========================== */
+
  if(event===3){
 
-   if(
+   const overloadBottleneck=
+     text.includes("pasaremos los proyectos") ||
+     text.includes("moveremos los proyectos") ||
+     text.includes("avanzaremos los proyectos") ||
+     text.includes("ingresaremos los proyectos") ||
+     text.includes("aunque esté lleno") ||
+     text.includes("aunque este lleno") ||
+     text.includes("superaremos el límite") ||
+     text.includes("superaremos el limite") ||
+     text.includes("aumentaremos el wip");
+
+   const attackBottleneck=
+     text.includes("swarming") ||
      text.includes("swarm") ||
-     text.includes("apoy") ||
-     text.includes("prevencion") ||
-     text.includes("prevención") ||
-     text.includes("cuello") ||
-     text.includes("comunica") ||
-     text.includes("resolver")
-   ){
+     text.includes("resolver") && text.includes("prevencion") ||
+     text.includes("resolver") && text.includes("prevención") ||
+     text.includes("atender") && text.includes("prevencion") ||
+     text.includes("atender") && text.includes("prevención") ||
+     text.includes("liberar") && text.includes("cuello") ||
+     text.includes("apoy") && text.includes("viabilidad") ||
+     text.includes("redistribuir") ||
+     text.includes("reorganizar") ||
+     text.includes("comunicar") ||
+     text.includes("informar a la comunidad") ||
+     text.includes("transparencia");
+
+   if(overloadBottleneck){
 
      consequence=
-     "La decisión concentra atención en el cuello de botella y favorece la transparencia con las partes interesadas. Puede recuperar el flujo, aunque exige coordinación entre especialidades.";
+     "El equipo logra mostrar movimiento de proyectos a corto plazo, pero trasladar más trabajo hacia una etapa que ya está saturada no elimina el cuello de botella. El inventario aumenta y los tiempos de espera pueden crecer.";
+
+     flow="🔴 Crítico";
+     adaptability="🟡 En tensión";
+
+   }else if(attackBottleneck){
+
+     consequence=
+     "El equipo dirige atención hacia el cuello de botella y busca resolver las prevenciones antes de seguir acumulando trabajo. La comunicación con la comunidad también mejora la transparencia, aunque la estrategia requiere coordinación entre distintas especialidades.";
 
      flow="🟢 Saludable";
      adaptability="🟢 Saludable";
@@ -785,46 +865,105 @@ function analyzeResponse(response,event){
    }else{
 
      consequence=
-     "La decisión atiende la situación, pero si no se dirige capacidad hacia Viabilidad Legal/Financiera, el inventario puede seguir acumulándose antes del cuello de botella.";
+     "El equipo reconoce la situación, pero la decisión no muestra con suficiente claridad cómo se liberará capacidad en Viabilidad Legal/Financiera. El riesgo es que los proyectos continúen acumulándose antes del cuello de botella.";
 
+     flow="🟡 En tensión";
+     adaptability="🟡 En tensión";
+   }
+
+   connection=
+   "Cuando aparece un cuello de botella, Scrumban favorece inspeccionar el sistema y concentrar capacidad donde está el bloqueo. Swarming y adaptación pueden ser más útiles que continuar iniciando trabajo.";
+ }
+
+
+ /* ==========================
+    EVENTO 4
+    TAILORING + GOBERNANZA
+ ========================== */
+
+ if(event===4){
+
+   const ignoreGovernance=
+     text.includes("scrumban puro") ||
+     text.includes("scrum ban puro") ||
+     text.includes("sin tailoring") ||
+     text.includes("sin adaptar") ||
+     text.includes("sin controles") ||
+     text.includes("evitar los controles") ||
+     text.includes("omitir") && text.includes("contrat") ||
+     text.includes("ignorar") && text.includes("presupuesto") ||
+     text.includes("sin considerar") && text.includes("legal");
+
+   const tailoring=
+     (
+       text.includes("tailoring") ||
+       text.includes("adaptaremos") ||
+       text.includes("adaptar") ||
+       text.includes("ajustaremos")
+     )
+     &&
+     (
+       text.includes("presupuesto") ||
+       text.includes("contrat") ||
+       text.includes("trazabilidad") ||
+       text.includes("control") ||
+       text.includes("legal") ||
+       text.includes("hitos") ||
+       text.includes("gobernanza")
+     );
+
+   const macroMicro=
+     (
+       text.includes("macro") &&
+       text.includes("micro")
+     ) ||
+     (
+       text.includes("gobernanza") &&
+       (
+         text.includes("operación") ||
+         text.includes("operacion")
+       )
+     );
+
+   if(ignoreGovernance){
+
+     consequence=
+     "El equipo privilegia la agilidad operativa, pero aplicar Scrumban sin adaptar el método al marco institucional genera tensión con las obligaciones presupuestarias, legales, de contratación y trazabilidad del proyecto público.";
+
+     governance="🔴 Crítico";
+     adaptability="🟡 En tensión";
+     flow="🟡 En tensión";
+
+   }else if(tailoring && macroMicro){
+
+     consequence=
+     "El equipo articula la gobernanza institucional con la gestión ágil del trabajo. Presupuesto, contratación, controles, trazabilidad e hitos permanecen en el nivel macro, mientras Scrumban organiza visualmente la operación, el flujo y la capacidad en el nivel micro.";
+
+     governance="🟢 Saludable";
+     adaptability="🟢 Saludable";
+     flow="🟢 Saludable";
+
+   }else if(tailoring){
+
+     consequence=
+     "El equipo reconoce la necesidad de adaptar Scrumban al contexto público e incorpora controles institucionales. La propuesta es consistente, aunque podría precisar mejor qué elementos corresponden a la gobernanza macro y cuáles a la operación cotidiana.";
+
+     governance="🟢 Saludable";
+     adaptability="🟢 Saludable";
+     flow="🟡 En tensión";
+
+   }else{
+
+     consequence=
+     "La propuesta contiene elementos útiles, pero no queda suficientemente definida la relación entre la gestión ágil del flujo y las obligaciones legales, presupuestarias y de contratación pública.";
+
+     governance="🟡 En tensión";
+     adaptability="🟡 En tensión";
      flow="🟡 En tensión";
    }
 
    connection=
-   "Swarming, inspección y adaptación permiten atacar el bloqueo en lugar de continuar iniciando trabajo que no podrá avanzar.";
- }
-
-
- if(event===4){
-
-   if(
-     text.includes("tailor") ||
-     text.includes("adapt") ||
-     text.includes("gobern") ||
-     text.includes("legal") ||
-     text.includes("presupuesto") ||
-     text.includes("contrat") ||
-     text.includes("trazabilidad") ||
-     text.includes("hito")
-   ){
-
-     consequence=
-     "El equipo integra agilidad operativa con obligaciones institucionales. La gobernanza macro conserva presupuesto, contratación, controles e hitos, mientras Scrumban gestiona el trabajo cotidiano.";
-
-     flow="🟢 Saludable";
-     governance="🟢 Saludable";
-     adaptability="🟢 Saludable";
-
-   }else{
-
-     consequence=
-     "La propuesta puede mantener agilidad en la operación, pero necesita integrar explícitamente las restricciones legales, presupuestarias y de contratación para evitar riesgos de gobernanza.";
-
-     governance="🔴 Crítico";
-   }
-
-   connection=
-   "Tailoring adapta Scrumban al entorno público: la agilidad de la microoperación puede coexistir con la gobernanza institucional del nivel macro.";
+   "Tailoring no significa eliminar controles. Significa adaptar la forma de trabajo al contexto: gobernanza macro para obligaciones institucionales y Scrumban en la microoperación para visualizar, limitar y mejorar el flujo.";
  }
 
 
