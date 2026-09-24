@@ -249,7 +249,35 @@ button:disabled{
   background:#123b5d;
   color:white;
 }
+/* Adaptación de la tabla final a pantallas pequeñas */
+.final-table{
+    table-layout:fixed;
+}
 
+.final-table th,
+.final-table td{
+    overflow-wrap:anywhere;
+}
+
+.final-table th:first-child,
+.final-table td:first-child{
+    width:24%;
+}
+
+@media (max-width:700px){
+
+    .final-table th,
+    .final-table td{
+        padding:8px 3px;
+        font-size:12px;
+    }
+
+    .final-table th:first-child,
+    .final-table td:first-child{
+        width:25%;
+    }
+}
+  
 .hidden{display:none}
 
 .small{
