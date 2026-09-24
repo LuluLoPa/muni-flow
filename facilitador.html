@@ -820,16 +820,88 @@ function analyzeResponse(response,event){
 
  if(event===3){
 
+      const moveAction=
+     text.includes("pasar") ||
+     text.includes("pasaremos") ||
+     text.includes("mover") ||
+     text.includes("moveremos") ||
+     text.includes("avanzar") ||
+     text.includes("avanzaremos") ||
+     text.includes("ingresar") ||
+     text.includes("ingresaremos") ||
+     text.includes("trasladar") ||
+     text.includes("trasladaremos");
+
+   const mentionsProjects=
+     text.includes("proyecto") ||
+     text.includes("expediente") ||
+     text.includes("trabajo");
+
+   const saturatedStage=
+     text.includes("llena") ||
+     text.includes("lleno") ||
+     text.includes("saturad") ||
+     text.includes("wip") ||
+     text.includes("límite") ||
+     text.includes("limite") ||
+     text.includes("sin capacidad") ||
+     text.includes("bloquead");
+
+   const disregardCapacity=
+     text.includes("aunque") ||
+     text.includes("a pesar") ||
+     text.includes("de todas formas") ||
+     text.includes("inmediatamente");
+
    const overloadBottleneck=
-     text.includes("pasaremos los proyectos") ||
-     text.includes("moveremos los proyectos") ||
-     text.includes("avanzaremos los proyectos") ||
-     text.includes("ingresaremos los proyectos") ||
-     text.includes("aunque esté lleno") ||
-     text.includes("aunque este lleno") ||
+     (moveAction && mentionsProjects && saturatedStage) ||
+     (moveAction && saturatedStage && disregardCapacity) ||
+     text.includes("superar el límite") ||
+     text.includes("superar el limite") ||
      text.includes("superaremos el límite") ||
      text.includes("superaremos el limite") ||
+     text.includes("aumentar el wip") ||
      text.includes("aumentaremos el wip");
+
+   const resolvesPreventions=
+     (
+       text.includes("resolver") ||
+       text.includes("resolveremos") ||
+       text.includes("atender") ||
+       text.includes("atenderemos") ||
+       text.includes("subsanar") ||
+       text.includes("subsanaremos")
+     )
+     &&
+     (
+       text.includes("prevencion") ||
+       text.includes("prevención") ||
+       text.includes("prevenciones")
+     );
+
+   const concentratesCapacity=
+     text.includes("swarming") ||
+     text.includes("swarm") ||
+     text.includes("redistribuir") ||
+     text.includes("redistribuiremos") ||
+     text.includes("reorganizar") ||
+     text.includes("reorganizaremos") ||
+     text.includes("apoyar") && text.includes("viabilidad") ||
+     text.includes("liberar") && text.includes("cuello");
+
+   const transparentCommunication=
+     text.includes("comunicar") ||
+     text.includes("comunicaremos") ||
+     text.includes("informar") ||
+     text.includes("informaremos") ||
+     text.includes("transparencia") ||
+     text.includes("explicar") ||
+     text.includes("explicaremos");
+
+   const attackBottleneck=
+     resolvesPreventions ||
+     concentratesCapacity ||
+     transparentCommunication;
 
    const attackBottleneck=
      text.includes("swarming") ||
