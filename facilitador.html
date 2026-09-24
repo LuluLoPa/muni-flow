@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>MUNI-FLOW | Centro de Control</title>
 
 <style>
@@ -11,14 +12,14 @@
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
-  background:#f3f6fa;
+  background:#eef2f6;
   color:#1f2937;
 }
 
 header{
-  background:linear-gradient(135deg,#123b5d,#176b87);
+  background:linear-gradient(135deg,#102f4c,#176b87);
   color:white;
-  padding:24px;
+  padding:22px;
 }
 
 .header-inner{
@@ -30,14 +31,14 @@ header{
   gap:20px;
 }
 
-header h1{margin:0;font-size:28px}
-header p{margin:5px 0 0;opacity:.85}
+header h1{margin:0;font-size:27px}
+header p{margin:5px 0 0;opacity:.9}
 
 .live{
-  background:#dff5ee;
-  color:#176b55;
-  padding:9px 14px;
+  background:#1f8b6d;
+  padding:8px 13px;
   border-radius:20px;
+  font-size:13px;
   font-weight:bold;
   white-space:nowrap;
 }
@@ -45,47 +46,44 @@ header p{margin:5px 0 0;opacity:.85}
 .container{
   max-width:1200px;
   margin:auto;
-  padding:24px 18px 50px;
+  padding:22px 16px 50px;
 }
 
-.control-card,
-.team-card{
+.card{
   background:white;
-  border-radius:16px;
-  box-shadow:0 5px 18px rgba(0,0,0,.07);
+  border-radius:17px;
+  padding:21px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+  margin-bottom:18px;
 }
 
-.control-card{
-  padding:22px;
-  margin-bottom:22px;
+.top-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:16px;
 }
 
-.top-row{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-.event-badge{
+.badge{
   display:inline-block;
-  background:#e8f3f8;
+  background:#e7f3f7;
   color:#176b87;
-  padding:8px 14px;
-  border-radius:20px;
+  padding:7px 12px;
+  border-radius:18px;
+  font-size:12px;
   font-weight:bold;
 }
 
-.progress-wrap{
-  margin-top:18px;
+.event-name{
+  color:#123b5d;
+  margin:10px 0 5px;
 }
 
 .progress{
-  height:12px;
+  height:16px;
   background:#e5e7eb;
   border-radius:20px;
   overflow:hidden;
+  margin-top:12px;
 }
 
 .progress-bar{
@@ -95,167 +93,181 @@ header p{margin:5px 0 0;opacity:.85}
   transition:.4s;
 }
 
-.teams{
+.counter{
+  font-size:30px;
+  font-weight:bold;
+  color:#123b5d;
+}
+
+.teams-grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
 }
 
 .team-card{
-  padding:18px;
-  border-top:5px solid #cbd5e1;
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+  border-top:6px solid #cbd5e1;
 }
 
-.team-card.received{
+.team-card.responded{
   border-top-color:#218b70;
 }
 
 .team-head{
   display:flex;
   justify-content:space-between;
+  gap:10px;
   align-items:center;
-  gap:8px;
 }
 
-.team-letter{
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  background:#176b87;
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+.team-name{
+  font-size:20px;
   font-weight:bold;
+  color:#123b5d;
 }
 
 .status{
-  font-size:13px;
-  padding:6px 9px;
-  border-radius:15px;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
   font-weight:bold;
+  background:#f1f5f9;
 }
 
-.waiting{
-  background:#fff3cd;
-  color:#8a6500;
-}
-
-.done{
-  background:#dff5ee;
-  color:#176b55;
+.status.ok{
+  background:#e7f7f1;
+  color:#14745c;
 }
 
 .answer{
   margin-top:15px;
-  padding-top:12px;
-  border-top:1px solid #e5e7eb;
-  font-size:14px;
+  background:#f8fafc;
+  border-radius:10px;
+  padding:13px;
+  line-height:1.5;
 }
 
-.answer h4{
-  margin:10px 0 5px;
-  color:#123b5d;
+.projects{
+  padding-left:20px;
+  line-height:1.5;
 }
 
-.answer p{
-  margin:4px 0;
-  line-height:1.4;
+.consequence{
+  margin-top:14px;
+  background:#edf9f5;
+  border-left:5px solid #218b70;
+  padding:13px;
+  border-radius:9px;
+  line-height:1.5;
 }
 
-.project-list{
-  padding-left:18px;
-  margin:7px 0;
+.connection{
+  margin-top:10px;
+  background:#eef2ff;
+  border-left:5px solid #5865c7;
+  padding:12px;
+  border-radius:9px;
+  line-height:1.5;
+}
+
+.indicators{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-top:12px;
+}
+
+.indicator{
+  background:#f8fafc;
+  padding:9px;
+  border-radius:8px;
+  font-size:12px;
+  text-align:center;
 }
 
 .controls{
-  margin-top:22px;
-  background:#123b5d;
-  color:white;
-  border-radius:16px;
-  padding:22px;
-}
-
-.buttons{
   display:flex;
-  gap:10px;
   flex-wrap:wrap;
+  gap:10px;
   margin-top:15px;
 }
 
 button{
   border:0;
+  padding:12px 16px;
   border-radius:10px;
-  padding:12px 17px;
-  font-size:14px;
   font-weight:bold;
   cursor:pointer;
-}
-
-.primary{
-  background:#29a37a;
-  color:white;
-}
-
-.secondary{
-  background:white;
-  color:#123b5d;
-}
-
-.warning{
-  background:#f2b84b;
-  color:#3b2a00;
+  font-size:14px;
 }
 
 button:disabled{
-  opacity:.45;
+  opacity:.4;
   cursor:not-allowed;
 }
 
-.notice{
+.green{background:#218b70;color:white}
+.blue{background:#176b87;color:white}
+.orange{background:#e8a329;color:#17202a}
+.red{background:#b84646;color:white}
+.gray{background:#64748b;color:white}
+
+.message{
+  margin-top:15px;
+  padding:13px;
+  border-radius:9px;
+  background:#f1f5f9;
+  line-height:1.5;
+}
+
+.warning{
   background:#fff6dc;
-  border-left:5px solid #e7a928;
-  padding:14px;
-  border-radius:8px;
+  border-left:5px solid #e8a329;
+  padding:13px;
+  border-radius:9px;
+  margin-top:12px;
+}
+
+.final-table{
+  width:100%;
+  border-collapse:collapse;
   margin-top:15px;
 }
 
-.system{
-  margin-top:22px;
-  background:white;
-  padding:20px;
-  border-radius:16px;
-}
-
-.system-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-}
-
-.indicator{
+.final-table th,
+.final-table td{
+  padding:11px 8px;
+  border-bottom:1px solid #e5e7eb;
   text-align:center;
-  background:#f8fafc;
-  border-radius:10px;
-  padding:12px;
 }
 
-footer{
-  text-align:center;
-  padding:25px;
+.final-table th{
+  background:#123b5d;
+  color:white;
+}
+
+.hidden{display:none}
+
+.small{
   color:#64748b;
   font-size:13px;
 }
 
-@media(max-width:900px){
-  .teams{grid-template-columns:repeat(2,1fr)}
+footer{
+  text-align:center;
+  color:#64748b;
+  padding:25px;
+  font-size:13px;
 }
 
-@media(max-width:600px){
-  .teams{grid-template-columns:1fr}
-  .system-grid{grid-template-columns:repeat(2,1fr)}
+@media(max-width:800px){
+  .teams-grid,.top-grid{grid-template-columns:1fr}
   .header-inner{display:block}
-  .live{display:inline-block;margin-top:15px}
+  .live{display:inline-block;margin-top:12px}
 }
 </style>
 </head>
@@ -265,149 +277,113 @@ footer{
 <header>
 <div class="header-inner">
   <div>
-    <h1>🏛️ MUNI-FLOW | Centro de Control</h1>
-    <p>Panel de la persona facilitadora</p>
+    <h1>🎛️ Centro de Control MUNI-FLOW</h1>
+    <p>Panel exclusivo de la persona facilitadora</p>
   </div>
-  <div class="live">● EN VIVO</div>
+  <div class="live">● CONECTADO EN TIEMPO REAL</div>
 </div>
 </header>
 
 <div class="container">
 
-<div class="control-card">
-  <div class="top-row">
-    <div>
-      <span class="event-badge">EVENTO 1 · PRIORIZACIÓN</span>
-      <h2>Estado de respuestas</h2>
-    </div>
-    <div>
-      <strong id="responseCount">0 de 4 equipos</strong>
-    </div>
-  </div>
+<div class="top-grid">
 
-  <div class="progress-wrap">
+  <div class="card">
+    <span class="badge" id="eventBadge">EVENTO 1 DE 4</span>
+    <h2 class="event-name" id="eventTitle">Priorización del portafolio</h2>
+    <p id="eventDescription"></p>
+
     <div class="progress">
-      <div id="progressBar" class="progress-bar"></div>
+      <div class="progress-bar" id="progressBar"></div>
     </div>
-  </div>
-</div>
 
-<div class="teams">
-
-  <div class="team-card" id="cardA">
-    <div class="team-head">
-      <div class="team-letter">A</div>
-      <span id="statusA" class="status waiting">⏳ Esperando</span>
-    </div>
-    <h3>Horizonte</h3>
-    <div id="answerA" class="answer">
-      Esperando la decisión del equipo...
-    </div>
+    <p>
+      <strong id="responseText">0 de 4 equipos respondieron</strong>
+    </p>
   </div>
 
-  <div class="team-card" id="cardB">
-    <div class="team-head">
-      <div class="team-letter">B</div>
-      <span id="statusB" class="status waiting">⏳ Esperando</span>
-    </div>
-    <h3>Impulso</h3>
-    <div id="answerB" class="answer">
-      Esperando la decisión del equipo...
-    </div>
-  </div>
-
-  <div class="team-card" id="cardC">
-    <div class="team-head">
-      <div class="team-letter">C</div>
-      <span id="statusC" class="status waiting">⏳ Esperando</span>
-    </div>
-    <h3>Conecta</h3>
-    <div id="answerC" class="answer">
-      Esperando la decisión del equipo...
-    </div>
-  </div>
-
-  <div class="team-card" id="cardD">
-    <div class="team-head">
-      <div class="team-letter">D</div>
-      <span id="statusD" class="status waiting">⏳ Esperando</span>
-    </div>
-    <h3>Avanza</h3>
-    <div id="answerD" class="answer">
-      Esperando la decisión del equipo...
-    </div>
+  <div class="card">
+    <div class="small">RESPUESTAS RECIBIDAS</div>
+    <div class="counter" id="counter">0 / 4</div>
+    <p class="small">
+      El panel se actualiza automáticamente.
+    </p>
   </div>
 
 </div>
 
-<div class="controls">
+<div class="teams-grid" id="teamsGrid"></div>
 
-  <h2>🎛️ Control de la simulación</h2>
+<div class="card">
 
-  <p>
-    Las respuestas aparecen automáticamente. No es necesario actualizar
-    esta página.
-  </p>
+  <span class="badge">CONTROL DE LA SIMULACIÓN</span>
 
-  <div class="buttons">
+  <h2>🎛️ Acciones del facilitador</h2>
 
-    <button id="revealBtn"
-            class="primary"
-            disabled
-            onclick="revealConsequences()">
+  <div class="controls">
+
+    <button
+      class="green"
+      id="revealBtn"
+      onclick="revealConsequences()"
+      disabled>
       🎭 Revelar consecuencias
     </button>
 
-    <button id="nextBtn"
-            class="secondary"
-            disabled
-            onclick="nextEvent()">
+    <button
+      class="blue"
+      id="nextBtn"
+      onclick="nextEvent()"
+      disabled>
       ➡️ Siguiente evento
     </button>
 
-    <button class="warning"
-            onclick="simulatePending()">
+    <button
+      class="orange"
+      id="simulateBtn"
+      onclick="simulatePending()">
       ⚡ Simular equipos pendientes
+    </button>
+
+    <button
+      class="red"
+      onclick="resetSimulation()">
+      ↻ Nueva simulación
     </button>
 
   </div>
 
-  <div id="controlMessage" class="notice">
-    Esperando las decisiones de los cuatro equipos.
+  <div class="message" id="controlMessage">
+    Esperando decisiones de los equipos.
+  </div>
+
+  <div class="warning">
+    <strong>Importante:</strong>
+    no avance al siguiente evento hasta haber comentado
+    brevemente las consecuencias con el grupo.
   </div>
 
 </div>
 
-<div class="system">
+<div class="card hidden" id="closingCard">
 
-  <h2>📊 Lectura del sistema</h2>
+  <span class="badge">CIERRE COMPARATIVO</span>
 
-  <div class="system-grid">
+  <h2>🏁 Lectura final del sistema</h2>
 
-    <div class="indicator">
-      🎯<br>
-      <strong>Valor Público</strong><br>
-      🟢 Saludable
-    </div>
+  <p>
+    La tabla resume el estado observado durante la simulación.
+    No existe un ganador absoluto: cada decisión produjo
+    beneficios, costos y tensiones diferentes.
+  </p>
 
-    <div class="indicator">
-      🌊<br>
-      <strong>Salud del Flujo</strong><br>
-      🟢 Saludable
-    </div>
+  <div id="finalTable"></div>
 
-    <div class="indicator">
-      💰<br>
-      <strong>Gobernanza</strong><br>
-      🟢 Saludable
-    </div>
-
-    <div class="indicator">
-      🔄<br>
-      <strong>Adaptabilidad</strong><br>
-      🟢 Saludable
-    </div>
-
+  <div class="message">
+    <strong>Pregunta para el cierre:</strong><br><br>
+    ¿Qué aprendimos sobre priorización, capacidad,
+    límites WIP, cuellos de botella, adaptación
+    y gobernanza en la gestión de proyectos públicos?
   </div>
 
 </div>
@@ -415,7 +391,7 @@ footer{
 </div>
 
 <footer>
-Gerencia de Planes, Programas y Proyectos · Simulación educativa Scrumban
+Gerencia de Planes, Programas y Proyectos · Simulación académica
 </footer>
 
 
@@ -424,280 +400,761 @@ Gerencia de Planes, Programas y Proyectos · Simulación educativa Scrumban
 
 <script>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBAP-FucF5-4_5Gem_oFobF5EcNMkArUFs",
-  authDomain: "muni-flow.firebaseapp.com",
-  databaseURL: "https://muni-flow-default-rtdb.firebaseio.com",
-  projectId: "muni-flow",
-  storageBucket: "muni-flow.firebasestorage.app",
-  messagingSenderId: "652943671856",
-  appId: "1:652943671856:web:0467f02991d622da6823f5"
+const firebaseConfig={
+ apiKey:"AIzaSyBAP-FucF5-4_5Gem_oFobF5EcNMkArUFs",
+ authDomain:"muni-flow.firebaseapp.com",
+ databaseURL:"https://muni-flow-default-rtdb.firebaseio.com",
+ projectId:"muni-flow",
+ storageBucket:"muni-flow.firebasestorage.app",
+ messagingSenderId:"652943671856",
+ appId:"1:652943671856:web:0467f02991d622da6823f5"
 };
 
 firebase.initializeApp(firebaseConfig);
+const database=firebase.database();
 
-const database = firebase.database();
-
-const teams = {
-  A:"Horizonte",
-  B:"Impulso",
-  C:"Conecta",
-  D:"Avanza"
+const teams={
+ A:"Horizonte",
+ B:"Impulso",
+ C:"Conecta",
+ D:"Avanza"
 };
 
-let received = {};
-let consequencesRevealed = false;
+const events={
+ 1:{
+   title:"Priorización del portafolio",
+   description:
+   "READY tiene capacidad máxima de 5. Cada equipo debe priorizar cinco de las diez iniciativas municipales."
+ },
+ 2:{
+   title:"WIP y presión de Alcaldía",
+   description:
+   "Formulación Técnica está al límite. La Alcaldía solicita incorporar inmediatamente la Cancha Multiuso."
+ },
+ 3:{
+   title:"Cuello de botella",
+   description:
+   "Viabilidad Legal/Financiera está bloqueada por prevenciones y nuevos proyectos no pueden avanzar."
+ },
+ 4:{
+   title:"Tailoring y gobernanza pública",
+   description:
+   "Un nuevo proyecto exige presupuesto, contratación, controles, trazabilidad e hitos institucionales."
+ }
+};
+
+let currentEvent=1;
+let revealed=false;
+let received={};
 
 
-/* ESCUCHA EN TIEMPO REAL */
+/* ===================================
+   ESCUCHAR CONTROL
+=================================== */
 
-database.ref("muniflow/teams").on("value", snapshot => {
+database.ref("muniflow/control").on("value",snapshot=>{
 
-  const data = snapshot.val() || {};
+ const data=snapshot.val() || {};
 
-  let count = 0;
+ currentEvent=data.currentEvent || 1;
+ revealed=data.consequencesRevealed || false;
 
-  Object.keys(teams).forEach(letter => {
+ renderHeader();
 
-    const decision =
-      data[letter] &&
-      data[letter].evento1;
-
-    if(decision && decision.submitted){
-
-      received[letter] = decision;
-
-      count++;
-
-      renderTeam(letter,decision);
-
-    }else{
-
-      renderWaiting(letter);
-
-    }
-
-  });
-
-  updateProgress(count);
+ if(currentEvent<=4){
+   listenResponses();
+ }else{
+   showClosing();
+ }
 
 });
 
 
-function renderTeam(letter,data){
+/* ===================================
+   ESCUCHAR RESPUESTAS
+=================================== */
 
-  const status =
-    document.getElementById("status"+letter);
+function listenResponses(){
 
-  status.className="status done";
-  status.innerHTML="✅ Respondió";
+ database
+ .ref("muniflow/teams")
+ .once("value")
+ .then(snapshot=>{
 
-  document
-    .getElementById("card"+letter)
-    .classList.add("received");
+   const data=snapshot.val() || {};
 
-  const projects =
-    (data.projects || [])
-    .map(p=>"<li>"+escapeHtml(p)+"</li>")
-    .join("");
+   received={};
+   let count=0;
 
-  document.getElementById("answer"+letter).innerHTML=`
+   Object.keys(teams).forEach(letter=>{
 
-    <h4>Proyectos priorizados</h4>
+     const response=
+       data[letter] &&
+       data[letter]["evento"+currentEvent];
 
-    <ol class="project-list">
-      ${projects}
-    </ol>
+     if(response && response.submitted){
+       received[letter]=response;
+       count++;
+     }
 
-    <h4>Justificación</h4>
+   });
 
-    <p>${escapeHtml(data.justification || "")}</p>
-  `;
+   renderTeams();
+   updateProgress(count);
+
+ });
 }
 
 
-function renderWaiting(letter){
+/* Actualización automática si llega una respuesta */
 
-  const status =
-    document.getElementById("status"+letter);
+database.ref("muniflow/teams").on("value",()=>{
 
-  status.className="status waiting";
-  status.innerHTML="⏳ Esperando";
+ if(currentEvent<=4){
+   listenResponses();
+ }
 
-  document
-    .getElementById("card"+letter)
-    .classList.remove("received");
+});
 
-  document.getElementById("answer"+letter).innerHTML=
-    "Esperando la decisión del equipo...";
+
+/* ===================================
+   ENCABEZADO
+=================================== */
+
+function renderHeader(){
+
+ if(currentEvent<=4){
+
+   document.getElementById("eventBadge").innerText=
+   "EVENTO "+currentEvent+" DE 4";
+
+   document.getElementById("eventTitle").innerText=
+   events[currentEvent].title;
+
+   document.getElementById("eventDescription").innerText=
+   events[currentEvent].description;
+
+   document.getElementById("closingCard")
+   .classList.add("hidden");
+
+ }else{
+
+   document.getElementById("eventBadge").innerText=
+   "SIMULACIÓN FINALIZADA";
+
+   document.getElementById("eventTitle").innerText=
+   "Cierre MUNI-FLOW";
+
+   document.getElementById("eventDescription").innerText=
+   "Los cuatro eventos han finalizado.";
+
+ }
+
 }
 
+
+/* ===================================
+   EQUIPOS
+=================================== */
+
+function renderTeams(){
+
+ const grid=document.getElementById("teamsGrid");
+
+ grid.innerHTML="";
+
+ Object.keys(teams).forEach(letter=>{
+
+   const response=received[letter];
+
+   const card=document.createElement("div");
+
+   card.className=
+   "team-card "+(response ? "responded" : "");
+
+   if(!response){
+
+     card.innerHTML=`
+       <div class="team-head">
+         <div class="team-name">
+           ${letter} — ${teams[letter]}
+         </div>
+
+         <div class="status">
+           ⏳ Esperando
+         </div>
+       </div>
+
+       <div class="answer">
+         Aún no se ha recibido una decisión
+         para el Evento ${currentEvent}.
+       </div>
+     `;
+
+   }else{
+
+     let answerHTML="";
+
+     if(currentEvent===1){
+
+       answerHTML=`
+       <strong>Iniciativas priorizadas:</strong>
+       <ul class="projects">
+         ${(response.projects||[])
+         .map(p=>`<li>${escapeHTML(p)}</li>`)
+         .join("")}
+       </ul>
+
+       <strong>Justificación:</strong><br>
+       ${escapeHTML(response.justification||"")}
+       `;
+
+     }else{
+
+       answerHTML=`
+       <strong>Decisión:</strong><br>
+       ${escapeHTML(response.decision||"")}
+       <br><br>
+
+       <strong>Justificación:</strong><br>
+       ${escapeHTML(response.justification||"")}
+       `;
+     }
+
+     const analysis=
+       analyzeResponse(response,currentEvent);
+
+     card.innerHTML=`
+       <div class="team-head">
+
+         <div class="team-name">
+           ${letter} — ${teams[letter]}
+         </div>
+
+         <div class="status ok">
+           ✅ Respondió
+         </div>
+
+       </div>
+
+       <div class="answer">
+         ${answerHTML}
+       </div>
+
+       ${revealed ? consequenceHTML(analysis) : ""}
+     `;
+
+   }
+
+   grid.appendChild(card);
+
+ });
+
+}
+
+
+/* ===================================
+   PROGRESO
+=================================== */
 
 function updateProgress(count){
 
-  document.getElementById("responseCount").innerText =
-    count+" de 4 equipos";
+ const percent=(count/4)*100;
 
-  document.getElementById("progressBar").style.width =
-    (count/4*100)+"%";
+ document.getElementById("progressBar").style.width=
+ percent+"%";
 
-  const reveal =
-    document.getElementById("revealBtn");
+ document.getElementById("counter").innerText=
+ count+" / 4";
 
-  if(count===4){
+ document.getElementById("responseText").innerText=
+ count+" de 4 equipos respondieron";
 
-    reveal.disabled=false;
+ const revealBtn=document.getElementById("revealBtn");
+ const nextBtn=document.getElementById("nextBtn");
 
-    document.getElementById("controlMessage").innerHTML=
-      "✅ Los cuatro equipos respondieron. Ya puede revelar las consecuencias.";
+ revealBtn.disabled=
+   count!==4 || revealed || currentEvent>4;
 
-  }else{
+ nextBtn.disabled=
+   !revealed || currentEvent>4;
 
-    reveal.disabled=true;
+ if(revealed){
 
-    document.getElementById("controlMessage").innerHTML=
-      "⏳ Esperando respuestas: "+count+" de 4 equipos.";
+   document.getElementById("controlMessage").innerHTML=
+   "🎭 <strong>Consecuencias reveladas.</strong> "+
+   "Comente los resultados con el grupo antes de avanzar.";
 
-  }
+ }else if(count===4){
+
+   document.getElementById("controlMessage").innerHTML=
+   "✅ Los cuatro equipos respondieron. "+
+   "Ya puede revelar las consecuencias.";
+
+ }else{
+
+   document.getElementById("controlMessage").innerHTML=
+   "⏳ Esperando decisiones. "+
+   "Han respondido <strong>"+count+" de 4</strong> equipos.";
+
+ }
+
 }
 
 
-/* REVELAR CONSECUENCIAS */
+/* ===================================
+   ANÁLISIS SCRUMBAN
+=================================== */
+
+function analyzeResponse(response,event){
+
+ const text=(
+   (response.decision||"")+" "+
+   (response.justification||"")
+ ).toLowerCase();
+
+ let value="🟢 Saludable";
+ let flow="🟡 En tensión";
+ let governance="🟢 Saludable";
+ let adaptability="🟡 En tensión";
+
+ let consequence="";
+ let connection="";
+
+
+ if(event===1){
+
+   consequence=
+   "El equipo limitó el trabajo que entra a READY y estableció una prioridad inicial. Esto protege la capacidad, aunque obliga a mantener y revisar las iniciativas que permanecen en Backlog.";
+
+   connection=
+   "Priorización + límite WIP + Replenishment: no todo lo importante debe entrar al sistema al mismo tiempo.";
+
+   flow="🟢 Saludable";
+ }
+
+
+ if(event===2){
+
+   if(
+     text.includes("termin") ||
+     text.includes("liber") ||
+     text.includes("swarm") ||
+     text.includes("wip") ||
+     text.includes("capacidad") ||
+     text.includes("negoci")
+   ){
+
+     consequence=
+     "El equipo protege la capacidad antes de incorporar nuevo trabajo. Reduce el riesgo de congestión, aunque puede generar una tensión temporal con la expectativa política o comunitaria.";
+
+     flow="🟢 Saludable";
+     adaptability="🟢 Saludable";
+
+   }else{
+
+     consequence=
+     "La decisión puede responder rápidamente a la solicitud de Alcaldía, pero introducir más trabajo con Formulación ya llena aumenta el riesgo de multitarea, congestión y mayor tiempo de entrega.";
+
+     flow="🔴 Crítico";
+   }
+
+   connection=
+   "Los límites WIP hacen visible la capacidad. Pull y Stop Starting, Start Finishing ayudan a evitar que la presión externa sobrecargue el sistema.";
+ }
+
+
+ if(event===3){
+
+   if(
+     text.includes("swarm") ||
+     text.includes("apoy") ||
+     text.includes("prevencion") ||
+     text.includes("prevención") ||
+     text.includes("cuello") ||
+     text.includes("comunica") ||
+     text.includes("resolver")
+   ){
+
+     consequence=
+     "La decisión concentra atención en el cuello de botella y favorece la transparencia con las partes interesadas. Puede recuperar el flujo, aunque exige coordinación entre especialidades.";
+
+     flow="🟢 Saludable";
+     adaptability="🟢 Saludable";
+
+   }else{
+
+     consequence=
+     "La decisión atiende la situación, pero si no se dirige capacidad hacia Viabilidad Legal/Financiera, el inventario puede seguir acumulándose antes del cuello de botella.";
+
+     flow="🟡 En tensión";
+   }
+
+   connection=
+   "Swarming, inspección y adaptación permiten atacar el bloqueo en lugar de continuar iniciando trabajo que no podrá avanzar.";
+ }
+
+
+ if(event===4){
+
+   if(
+     text.includes("tailor") ||
+     text.includes("adapt") ||
+     text.includes("gobern") ||
+     text.includes("legal") ||
+     text.includes("presupuesto") ||
+     text.includes("contrat") ||
+     text.includes("trazabilidad") ||
+     text.includes("hito")
+   ){
+
+     consequence=
+     "El equipo integra agilidad operativa con obligaciones institucionales. La gobernanza macro conserva presupuesto, contratación, controles e hitos, mientras Scrumban gestiona el trabajo cotidiano.";
+
+     flow="🟢 Saludable";
+     governance="🟢 Saludable";
+     adaptability="🟢 Saludable";
+
+   }else{
+
+     consequence=
+     "La propuesta puede mantener agilidad en la operación, pero necesita integrar explícitamente las restricciones legales, presupuestarias y de contratación para evitar riesgos de gobernanza.";
+
+     governance="🔴 Crítico";
+   }
+
+   connection=
+   "Tailoring adapta Scrumban al entorno público: la agilidad de la microoperación puede coexistir con la gobernanza institucional del nivel macro.";
+ }
+
+
+ return{
+   value,
+   flow,
+   governance,
+   adaptability,
+   consequence,
+   connection
+ };
+
+}
+
+
+/* ===================================
+   MOSTRAR CONSECUENCIA
+=================================== */
+
+function consequenceHTML(a){
+
+ return`
+
+ <div class="consequence">
+   <strong>🎭 Consecuencia</strong><br><br>
+   ${a.consequence}
+ </div>
+
+ <div class="connection">
+   <strong>🔗 Conexión Scrumban</strong><br><br>
+   ${a.connection}
+ </div>
+
+ <div class="indicators">
+
+   <div class="indicator">
+     🎯 <strong>Valor público</strong><br>
+     ${a.value}
+   </div>
+
+   <div class="indicator">
+     🌊 <strong>Salud del flujo</strong><br>
+     ${a.flow}
+   </div>
+
+   <div class="indicator">
+     💰 <strong>Gobernanza</strong><br>
+     ${a.governance}
+   </div>
+
+   <div class="indicator">
+     🔄 <strong>Adaptabilidad</strong><br>
+     ${a.adaptability}
+   </div>
+
+ </div>
+
+ `;
+
+}
+
+
+/* ===================================
+   REVELAR
+=================================== */
 
 async function revealConsequences(){
 
-  consequencesRevealed=true;
+ if(Object.keys(received).length!==4){
+   alert("Todavía faltan equipos por responder.");
+   return;
+ }
 
-  await database
-    .ref("muniflow/control")
-    .update({
-      consequencesRevealed:true,
-      currentEvent:1,
-      updatedAt:Date.now()
-    });
+ await database.ref("muniflow/control").update({
+   consequencesRevealed:true,
+   currentEvent:currentEvent,
+   updatedAt:Date.now()
+ });
 
-  document.getElementById("controlMessage").innerHTML=
-    "🎭 Consecuencias reveladas. Revise las decisiones con el grupo.";
-
-  document.getElementById("nextBtn").disabled=false;
 }
 
 
-/* SIGUIENTE EVENTO */
+/* ===================================
+   SIGUIENTE EVENTO
+=================================== */
 
 async function nextEvent(){
 
-  if(!consequencesRevealed){
-    alert("Primero revele las consecuencias.");
-    return;
-  }
+ if(!revealed){
+   alert("Primero revele las consecuencias.");
+   return;
+ }
 
-  await database
-    .ref("muniflow/control")
-    .update({
-      currentEvent:2,
-      consequencesRevealed:false,
-      updatedAt:Date.now()
-    });
+ if(currentEvent<4){
 
-  document.getElementById("controlMessage").innerHTML=
-    "➡️ Evento 2 activado en el sistema.";
+   await database.ref("muniflow/control").update({
+     currentEvent:currentEvent+1,
+     consequencesRevealed:false,
+     updatedAt:Date.now()
+   });
 
-  alert(
-    "Evento 2 activado. En la siguiente fase conectaremos esta orden " +
-    "con los celulares de los equipos."
-  );
+ }else{
+
+   await database.ref("muniflow/control").update({
+     currentEvent:5,
+     consequencesRevealed:false,
+     updatedAt:Date.now()
+   });
+
+ }
+
 }
 
 
-/* DEMO: SIMULAR EQUIPOS PENDIENTES */
+/* ===================================
+   SIMULAR PENDIENTES
+=================================== */
 
 async function simulatePending(){
 
-  const demo = {
+ const demo={
 
-    A:{
-      projects:[
-        "Parque infantil de Los Cipreses",
-        "Centro diurno para personas adultas mayores",
-        "Programa de empleo juvenil",
-        "Aceras accesibles frente a la escuela",
-        "Recuperación de quebrada municipal"
-      ],
-      justification:
-        "Priorizamos impacto social, población vulnerable y urgencia comunitaria."
-    },
+   1:{
+     decision:"Priorización de cinco iniciativas",
+     justification:
+     "Priorizamos considerando valor público, urgencia social y capacidad municipal.",
+     projects:[
+       "Centro diurno para personas adultas mayores",
+       "Programa de empleo juvenil",
+       "Aceras accesibles frente a la escuela",
+       "Iluminación del parque central",
+       "Recuperación de quebrada municipal"
+     ]
+   },
 
-    B:{
-      projects:[
-        "Cancha multiuso",
-        "Iluminación del parque central",
-        "Feria de emprendimientos locales",
-        "Programa de empleo juvenil",
-        "Reparación del salón comunal"
-      ],
-      justification:
-        "Priorizamos proyectos visibles y demandas inmediatas de la comunidad."
-    },
+   2:{
+     decision:
+     "Terminaremos uno de los proyectos actuales antes de incorporar la Cancha Multiuso.",
+     justification:
+     "Respetamos el límite WIP y negociamos con Alcaldía una incorporación apenas exista capacidad."
+   },
 
-    C:{
-      projects:[
-        "Aceras accesibles frente a la escuela",
-        "Centro diurno para personas adultas mayores",
-        "Recuperación de quebrada municipal",
-        "Programa de empleo juvenil",
-        "Parque infantil de Los Cipreses"
-      ],
-      justification:
-        "Buscamos equilibrio entre inclusión, ambiente, empleo y valor público."
-    },
+   3:{
+     decision:
+     "Aplicaremos swarming para resolver las prevenciones y comunicaremos a la comunidad el estado del bloqueo.",
+     justification:
+     "Concentrar capacidad en el cuello de botella permite recuperar el flujo sin aumentar el WIP."
+   },
 
-    D:{
-      projects:[
-        "Centro diurno para personas adultas mayores",
-        "Aceras accesibles frente a la escuela",
-        "Iluminación del parque central",
-        "Recuperación de quebrada municipal",
-        "Reparación del salón comunal"
-      ],
-      justification:
-        "Priorizamos viabilidad institucional, urgencia y capacidad disponible."
-    }
+   4:{
+     decision:
+     "Aplicaremos Tailoring.",
+     justification:
+     "Mantendremos presupuesto, contratación, trazabilidad e hitos en la gobernanza macro y utilizaremos Scrumban para organizar la microoperación."
+   }
 
-  };
+ };
 
-  for(const letter of Object.keys(teams)){
+ const updates={};
 
-    if(!received[letter]){
+ Object.keys(teams).forEach(letter=>{
 
-      await database
-        .ref("muniflow/teams/"+letter+"/evento1")
-        .set({
-          team:letter,
-          name:teams[letter],
-          event:1,
-          projects:demo[letter].projects,
-          justification:demo[letter].justification,
-          submitted:true,
-          simulated:true,
-          timestamp:Date.now()
-        });
+   if(!received[letter]){
 
-    }
-  }
+     updates[
+       "muniflow/teams/"+
+       letter+
+       "/evento"+
+       currentEvent
+     ]={
+       team:letter,
+       name:teams[letter],
+       event:currentEvent,
+       submitted:true,
+       simulated:true,
+       timestamp:Date.now(),
+       ...demo[currentEvent]
+     };
 
-  document.getElementById("controlMessage").innerHTML=
-    "⚡ Se generaron respuestas de demostración para los equipos pendientes.";
+   }
+
+ });
+
+ if(Object.keys(updates).length===0){
+
+   alert("Los cuatro equipos ya respondieron.");
+
+   return;
+ }
+
+ await database.ref().update(updates);
+
 }
 
 
-/* SEGURIDAD VISUAL */
+/* ===================================
+   NUEVA SIMULACIÓN
+=================================== */
 
-function escapeHtml(text){
+async function resetSimulation(){
 
-  const div=document.createElement("div");
-  div.textContent=text;
-  return div.innerHTML;
+ const confirmation=confirm(
+   "¿Desea iniciar una NUEVA SIMULACIÓN?\n\n"+
+   "Se eliminarán todas las respuestas de prueba "+
+   "y MUNI-FLOW regresará al Evento 1."
+ );
+
+ if(!confirmation) return;
+
+ await database.ref("muniflow/teams").remove();
+
+ await database.ref("muniflow/control").set({
+   currentEvent:1,
+   consequencesRevealed:false,
+   updatedAt:Date.now()
+ });
+
+ alert(
+   "Nueva simulación preparada. "+
+   "Los equipos pueden comenzar nuevamente."
+ );
+
+}
+
+
+/* ===================================
+   CIERRE
+=================================== */
+
+async function showClosing(){
+
+ document.getElementById("teamsGrid").innerHTML="";
+
+ document.getElementById("progressBar").style.width="100%";
+
+ document.getElementById("counter").innerText="4 / 4";
+
+ document.getElementById("responseText").innerText=
+ "Simulación completada";
+
+ document.getElementById("revealBtn").disabled=true;
+ document.getElementById("nextBtn").disabled=true;
+ document.getElementById("simulateBtn").disabled=true;
+
+ document.getElementById("controlMessage").innerHTML=
+ "🏁 <strong>Los cuatro eventos han finalizado.</strong>";
+
+ document.getElementById("closingCard")
+ .classList.remove("hidden");
+
+ const snapshot=
+ await database.ref("muniflow/teams").once("value");
+
+ const data=snapshot.val() || {};
+
+ let rows="";
+
+ Object.keys(teams).forEach(letter=>{
+
+   let value="🟢";
+   let flow="🟡";
+   let governance="🟢";
+   let adaptability="🟡";
+
+   const e4=
+     data[letter] &&
+     data[letter].evento4;
+
+   if(e4){
+
+     const result=analyzeResponse(e4,4);
+
+     value=result.value.split(" ")[0];
+     flow=result.flow.split(" ")[0];
+     governance=result.governance.split(" ")[0];
+     adaptability=result.adaptability.split(" ")[0];
+
+   }
+
+   rows+=`
+     <tr>
+       <td><strong>${letter} — ${teams[letter]}</strong></td>
+       <td>${value}</td>
+       <td>${flow}</td>
+       <td>${governance}</td>
+       <td>${adaptability}</td>
+     </tr>
+   `;
+
+ });
+
+ document.getElementById("finalTable").innerHTML=`
+
+ <table class="final-table">
+
+   <tr>
+     <th>Equipo</th>
+     <th>🎯 Valor público</th>
+     <th>🌊 Flujo</th>
+     <th>💰 Gobernanza</th>
+     <th>🔄 Adaptabilidad</th>
+   </tr>
+
+   ${rows}
+
+ </table>
+
+ <p class="small">
+ Los indicadores son una lectura pedagógica de las decisiones
+ y no una calificación numérica.
+ </p>
+
+ `;
+
+}
+
+
+/* ===================================
+   SEGURIDAD DE TEXTO
+=================================== */
+
+function escapeHTML(text){
+
+ return String(text)
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+
 }
 
 </script>
