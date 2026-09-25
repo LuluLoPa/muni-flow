@@ -256,6 +256,7 @@ Gerencia de Planes, Programas y Proyectos
 
 
 <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-database-compat.js"></script>
 
 <script>
@@ -273,6 +274,14 @@ const firebaseConfig={
 firebase.initializeApp(firebaseConfig);
 const database=firebase.database();
 
+  firebase.auth().signInAnonymously()
+  .then(()=>{
+    console.log("MUNI-FLOW: usuario autenticado de forma anónima");
+  })
+  .catch((error)=>{
+    console.error("Error de autenticación:", error);
+  });
+  
 const teams={
  A:"Horizonte",
  B:"Impulso",
