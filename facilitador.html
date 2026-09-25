@@ -700,13 +700,17 @@ function updateProgress(count){
 
  const revealBtn=document.getElementById("revealBtn");
  const nextBtn=document.getElementById("nextBtn");
-
+  const simulateBtn=document.getElementById("simulateBtn");
+  
  revealBtn.disabled=
    count!==4 || revealed || currentEvent>4;
 
  nextBtn.disabled=
    !revealed || currentEvent>4;
 
+  simulateBtn.disabled=
+    count===4 || revealed || currentEvent>4;
+  
  if(revealed){
 
    document.getElementById("controlMessage").innerHTML=
